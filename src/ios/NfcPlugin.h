@@ -22,6 +22,7 @@
 - (void)registerNdef:(CDVInvokedUrlCommand *)command;
 - (void)removeNdef:(CDVInvokedUrlCommand *)command;
 - (void)enabled:(CDVInvokedUrlCommand *)command;
+- (void) fireNdefEvent:(NFCNDEFMessage *) ndefMessage API_AVAILABLE(ios(11.0));
 
 @end
 

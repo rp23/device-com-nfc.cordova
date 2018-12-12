@@ -132,6 +132,8 @@
         
         <header-file src="src/ios/NfcPlugin.h" />
         <source-file src="src/ios/NfcPlugin.m" />
+        <header-file src="src/ios/NFCPlugin-Bridging-Header.h" />
+        <source-file src="src/ios/AppDelegate+NFC.swift" />
 
         <!-- frameworks -->
         <framework src="CoreNFC.framework" />
