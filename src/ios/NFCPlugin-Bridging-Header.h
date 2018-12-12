@@ -1,2 +1,2 @@
-#import "Classes/AppDelegate.h"
+#import "../../Classes/AppDelegate.h"
 #import "NfcPlugin.h"
