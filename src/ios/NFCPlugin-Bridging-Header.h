@@ -1,2 +1,8 @@
+//
+//  NFCPlugin-Bridging-Header.h
+//  PhoneGap NFC - Cordova Plugin
+//
+//  (c) 2018 IoTize Solutions
+
 #import "../../Classes/AppDelegate.h"
 #import "NfcPlugin.h"

@@ -1,3 +1,9 @@
+//
+//  AppDelegate+NFC.swift
+//  PhoneGap NFC - Cordova Plugin
+//
+//  (c) 2018 IoTize Solutions
+
 import CoreNFC
 
 extension AppDelegate {
@@ -19,11 +25,24 @@ extension AppDelegate {
             ndefMessage.records[0].typeNameFormat != .empty else {
                 return false
             }
-
             let nfcPluginInstance: NfcPlugin = self.viewController.getCommandInstance("NfcPlugin") as! NfcPlugin
-            nfcPluginInstance.fireNdefEvent(ndefMessage)
+            var resolved: Bool = false;
+            NSLog(nfcPluginInstance.debugDescription);
             
-            return true
+            DispatchQueue.global().async {
+                let waitingTimeInterval: Double = 0.1;
+                print("<NFC> Did start timeout")
+                for _ in 1...2000 { // 5?s timeout
+                    if ( !nfcPluginInstance.isRegisteredNdef() ) {
+                    Thread.sleep(forTimeInterval: waitingTimeInterval)
+                    } else {
+                        nfcPluginInstance.fireNdefEvent(ndefMessage)
+                        resolved = true
+                        return
+                    }
+                }
+        }
+            return resolved
         } else {
             return false
         }

@@ -2,7 +2,7 @@
 //  NfcPlugin.m
 //  PhoneGap NFC - Cordova Plugin
 //
-//  (c) 2107 Don Coleman
+//  (c) 2018 IoTize Solutions
 
 #import "NfcPlugin.h"
 
@@ -10,6 +10,7 @@
     NSString* ndefStartSessionCallbackId;
 }
 @property (strong, nonatomic) NFCNDEFReaderSession *nfcSession;
+@property (nonatomic, assign) BOOL registeredNdef;
 @end
 
 @implementation NfcPlugin
@@ -21,6 +22,8 @@
 
     [super pluginInitialize];
     
+    [self setRegisteredNdef:NO];
+
     // TODO fail quickly if not supported
     if (![NFCNDEFReaderSession readingAvailable]) {
         NSLog(@"NFC Support is NOT available");
@@ -53,6 +56,7 @@
     NSLog(@"registerNdef");
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    [self setRegisteredNdef:YES];
 }
 
 // Nothing happens here, the event listener is removed in JavaScript
@@ -60,6 +64,7 @@
     NSLog(@"removeNdef");
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    [self setRegisteredNdef:NO];
 }
 
 - (void)enabled:(CDVInvokedUrlCommand *)command {
@@ -168,6 +173,10 @@ NSString* dictionaryAsJSONString(NSDictionary *dict) {
         jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
     return jsonString;
+}
+
+- (BOOL) isRegisteredNdef {
+    return [self registeredNdef];
 }
 
 @end
