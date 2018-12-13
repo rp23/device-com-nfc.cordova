@@ -1,3 +1,27 @@
+This is a fork from [PhoneGap NFC Plugin 1.0.3](https://github.com/chariotsolutions/phonegap-nfc)
+
+iOS Feature:
+
+With the proper configuration, it is now possible to launch a phoneGap / cordova app by reading a NFC Tag. 
+
+When a tag is detected, a notification appears and asks you to open the linked app. It then opens the app (if it is not open yet) and gives the NDEFMessage delivered by the tag.
+
+You don't have to start a session anymore (cf[iOS notes](#iOS-Notes)), but you need to accept the notification in order to retrieve the tag's content.
+
+This feature is available on iPhone XR / XS / XS Max. earlier devices do'nt support background tag reading.
+
+You will need to turn on *Associated Domains* and *Near Field Communication Tag Reading* capabilities in your Xcode project, support universal links and add the website linked to the app as an *Associated Domain* with the following scheme:
+
+    applinks:www.example.com
+
+Tag delivery is then handled by the plugin.
+
+Check out the official documentation for more precise informations.
+
+- [Adding support for background tag reading](https://developer.apple.com/documentation/corenfc/adding_support_for_background_tag_reading) 
+
+- [Support Universal Links](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/UniversalLinks.html)
+
 PhoneGap NFC Plugin
 ==========================
 
