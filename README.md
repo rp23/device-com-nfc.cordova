@@ -1,12 +1,14 @@
+# IoTize PhoneGap NFC iPhone XR / XS support
+
 This is a fork from [PhoneGap NFC Plugin 1.0.3](https://github.com/chariotsolutions/phonegap-nfc)
 
-iOS Feature:
+## iOS Feature:
 
-With the proper configuration, it is now possible to launch a phoneGap / cordova app by reading a NFC Tag. 
+With the proper configuration, it is now possible to launch a phoneGap / cordova app by reading a NFC NDEF Tag. 
 
 When a tag is detected, a notification appears and asks you to open the linked app. It then opens the app (if it is not open yet) and gives the NDEFMessage delivered by the tag.
 
-You don't have to start a session anymore (cf[iOS notes](#iOS-Notes)), but you need to accept the notification in order to retrieve the tag's content.
+You don't have to start a session anymore (cf [iOS notes](#iOS-Notes)), but you need to accept the notification in order to retrieve the tag's content.
 
 This feature is available on iPhone XR / XS / XS Max. earlier devices do'nt support background tag reading.
 
@@ -21,6 +23,40 @@ Check out the official documentation for more precise informations.
 - [Adding support for background tag reading](https://developer.apple.com/documentation/corenfc/adding_support_for_background_tag_reading) 
 
 - [Support Universal Links](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/UniversalLinks.html)
+
+## Notes about Application launch on NFC NDEF Tag
+
+In order to launch your application and access the NDEF tag from within your android application, you need two things:
+
+- Adding an intent-filter your app AndroidManifest.xml like stated in [Launching Application when Scanning a Tag](#launching-your-android-application-when-scanning-a-tag). *NB:\<data android:mimeType="application/YOUR_APPLICATION_PACKAGE" /> for an 'unknown' NDEF type*
+- Listening to Mime events (see [NFC.addMimeTypeListener](#nfc.addMimeTypeListener)) *NB: Any MimeType would do, for example 'text/bogus'. See [this issue](https://github.com/chariotsolutions/phonegap-nfc/issues/217#issuecomment-164802659) on the original plugin*
+
+You can then have the same callback on both listener. Here's an example using Ionic and typescript:
+
+```typescript
+  listenNFC() {
+    this.nfc.addNdefListener(() => {
+      console.log('NFC listener ON')
+    },
+      (error) => {
+        console.error('NFC listener didn\'t start: ', error)
+      }).subscribe(event => {
+        this.onDiscoveredTap(event);
+      });
+
+      if (this.platform.is('android')) {
+        
+        this.nfc.addMimeTypeListener("text/bogus",() => {
+          console.log('NFCMime listener ON')
+        },
+          (error) => {
+            console.error('NFCMime listener didn\'t start: ', error)
+          }).subscribe(event => {
+            this.onDiscoveredTap(event);
+          });
+      }
+  }
+```
 
 PhoneGap NFC Plugin
 ==========================
