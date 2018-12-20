@@ -1,5 +1,6 @@
 {
   "name": "@iotize/device-com-nfc.cordova",
+  "main": "./dist/index.js",
   "version": "1.0.0-alpha.1",
   "description": "Near Field Communication (NFC) Plugin. Read and write NDEF messages to NFC tags and share NDEF messages with peers.",
   "cordova": {
@@ -35,10 +36,16 @@
   "homepage": "https://github.com/iotize-sas/device-com-nfc.cordova#readme",
   "devDependencies": {
     "@iotize/device-client.js": "0.0.1-alpha.59",
-    "rxjs": "^6.3.3"
+    "rxjs": "^6.3.3",
+    "typescript": "^3.2.2"
   },
   "peerDependencies": {
     "@iotize/device-client.js": "^0.0.1-alpha.59",
     "rxjs": "^6.0.0"
+  },
+  "scripts": {
+    "build": "npm run clean && tsc -p ./tsconfig.json",
+    "clean": "rm -rf ./dist/*",
+    "prepare": "npm run build"
   }
 }

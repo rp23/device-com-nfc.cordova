@@ -1,0 +1,26 @@
+repositories{
+    jcenter()
+    flatDir {
+        dirs 'libs'
+    }
+    maven {
+        // Add iotize repository url
+        url "http://repo.iotize.com/artifactory/gradle-release"
+    }
+}
+
+dependencies {
+    // Add core library
+    implementation 'com.iotize.android:iotize-core:1.0.0-alpha.5'
+
+    // NFC
+    implementation 'com.iotize.android:iotize-device-com-nfc:1.0.0-alpha.5'
+
+}
+
+android {
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+}

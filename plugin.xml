@@ -2,17 +2,17 @@
 <plugin
     xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    id="phonegap-nfc"
-    version="1.0.3">
+    id="cordova-plugin-iotize-device-com-nfc"
+    version="1.0.0-alpha.1">
 
-    <name>NFC</name>
+    <name>cordova-plugin-iotize-device-com-nfc</name>
 
     <description>Near Field Communication (NFC) Plugin. Read and write NDEF messages to NFC tags and share NDEF messages with peers.</description>
 
     <license>MIT</license>
     <keywords>nfc, NFC, NDEF</keywords>
-    <repo>https://github.com/chariotsolutions/phonegap-nfc.git</repo>
-    <issue>https://github.com/chariotsolutions/phonegap-nfc/issues</issue>
+    <repo>https://github.com/iotize-sas/device-com-nfc.cordova.git</repo>
+    <issue>https://github.com/iotize-sas/device-com-nfc.cordova/issues</issue>
 
     <platform name="android">
         <js-module src="www/phonegap-nfc.js" name="NFC">
@@ -24,7 +24,11 @@
                 <param name="android-package" value="com.chariotsolutions.nfc.plugin.NfcPlugin"/>
                 <param name="onload" value="true" />
             </feature>
+            <feature name="NFCCom">
+                <param name="android-package" value="com.iotize.android.communication.nfc.cordovaplugin.NFCCom"/>
+            </feature>
         </config-file>
+        <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
 
         <source-file src="src/android/src/com/chariotsolutions/nfc/plugin/NfcPlugin.java"
             target-dir="src/com/chariotsolutions/nfc/plugin"/>

@@ -35,6 +35,11 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.iotize.android.communication.protocol.nfc.NFCProtocol;
+import com.iotize.android.core.util.Helper;
+
+import io.reactivex.annotations.Nullable;
+
 public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCompleteCallback {
     private static final String REGISTER_MIME_TYPE = "registerMimeType";
     private static final String REMOVE_MIME_TYPE = "removeMimeType";
@@ -66,8 +71,10 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
     private static final String CONNECT = "connect";
     private static final String CLOSE = "close";
     private static final String TRANSCEIVE = "transceive";
-    private TagTechnology tagTechnology = null;
-    private Class<?> tagTechnologyClass;
+
+//    @Nullable
+//    private TagTechnology tagTechnology = null;
+//    private Class<?> tagTechnologyClass;
 
     private static final String CHANNEL = "channel";
 
@@ -89,6 +96,9 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
     private CallbackContext channelCallback;
     private CallbackContext shareTagCallback;
     private CallbackContext handoverCallback;
+
+    @Nullable
+    private NFCProtocol nfcProtocol;
 
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
@@ -870,18 +880,20 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
                 List<String> techList = Arrays.asList(tag.getTechList());
                 if (techList.contains(tech)) {
                     // use reflection to call the static function Tech.get(tag)
-                    tagTechnologyClass = Class.forName(tech);
-                    Method method = tagTechnologyClass.getMethod("get", Tag.class);
-                    tagTechnology = (TagTechnology) method.invoke(null, tag);
+//                    tagTechnologyClass = Class.forName(tech);
+                    nfcProtocol = NFCProtocol.create(tag);
+//                    Method method = tagTechnologyClass.getMethod("get", Tag.class);
+//                    tagTechnology = (TagTechnology) method.invoke(null, tag);
                 }
 
-                if (tagTechnology == null) {
+                if (nfcProtocol == null) {
                     callbackContext.error("Tag does not support " + tech);
                     return;
                 }
 
-                tagTechnology.connect();
+                nfcProtocol.connect();
                 setTimeout(timeout);
+                Log.d(TAG, "NFC Connection succesful");
                 callbackContext.success();
 
             } catch (IOException ex) {
@@ -901,24 +913,19 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
             } catch (InvocationTargetException e) {
                 Log.e(TAG, e.getMessage(), e);
                 callbackContext.error(e.getMessage());
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage(), e);
+                callbackContext.error(e.getMessage());
             }
         });
     }
 
-    // Call tagTech setTimeout with reflection or fail silently
     private void setTimeout(int timeout) {
         if (timeout < 0) {
             return;
         }
-        try {
-            Method setTimeout = tagTechnologyClass.getMethod("setTimeout", int.class);
-            setTimeout.invoke(tagTechnology, timeout);
-        } catch (NoSuchMethodException e) {
-            // ignore
-        } catch (IllegalAccessException e) {
-            // ignore
-        } catch (InvocationTargetException e) {
-            // ignore
+        if (nfcProtocol != null){
+            nfcProtocol.getConfiguration().connectionTimeoutMillis = timeout;
         }
     }
 
@@ -930,17 +937,12 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
     private void close(CallbackContext callbackContext) {
         cordova.getThreadPool().execute(() -> {
             try {
-
-                if (tagTechnology != null && tagTechnology.isConnected()) {
-                    tagTechnology.close();
-                    tagTechnology = null;
-                    callbackContext.success();
-                } else {
-                    // connection already gone
-                    callbackContext.success();
+                if (nfcProtocol != null && nfcProtocol.isConnected()){
+                    nfcProtocol.disconnect();
                 }
+                callbackContext.success();
 
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 Log.e(TAG, "Error closing nfc connection", ex);
                 callbackContext.error("Error closing nfc connection " + ex.getLocalizedMessage());
             }
@@ -956,35 +958,26 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
     private void transceive(final byte[] data, final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(() -> {
             try {
-                if (tagTechnology == null) {
+                if (nfcProtocol == null) {
                     Log.e(TAG, "No Tech");
                     callbackContext.error("No Tech");
                     return;
                 }
-                if (!tagTechnology.isConnected()) {
+                if (!nfcProtocol.isConnected()) {
                     Log.e(TAG, "Not connected");
                     callbackContext.error("Not connected");
                     return;
                 }
 
                 // Use reflection so we can support many tag types
-                Method transceiveMethod = tagTechnologyClass.getMethod("transceive", byte[].class);
-                @SuppressWarnings("PrimitiveArrayArgumentToVarargsMethod")
-                byte[] response = (byte[]) transceiveMethod.invoke(tagTechnology, data);
-
-                callbackContext.success(response);
-
-            } catch (NoSuchMethodException e) {
-                String error = "TagTechnology " + tagTechnologyClass.getName() + " does not have a transceive function";
-                Log.e(TAG, error, e);
-                callbackContext.error(error);
-            } catch (IllegalAccessException e) {
+                //Method transceiveMethod = tagTechnologyClass.getMethod("transceive", byte[].class);
+//                @SuppressWarnings("PrimitiveArrayArgumentToVarargsMethod")
+//                byte[] response = (byte[]) transceiveMethod.invoke(tagTechnology, data);
+                byte[] response = nfcProtocol.send(data);
+                callbackContext.success(Helper.ByteArrayToHexString(response));
+            } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
                 callbackContext.error(e.getMessage());
-            } catch (InvocationTargetException e) {
-                Log.e(TAG, e.getMessage(), e);
-                Throwable cause = e.getCause();
-                callbackContext.error(cause.getMessage());
             }
         });
     }
