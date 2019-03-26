@@ -2,6 +2,12 @@
 
 This is a fork from [PhoneGap NFC Plugin 1.0.3](https://github.com/chariotsolutions/phonegap-nfc)
 
+## Ionic support
+
+You can use this plugin with the ionic-native NFC provider:
+
+    npm i @ionic-native/nfc
+
 ## iOS Feature:
 
 With the proper configuration, it is now possible to launch a phoneGap / cordova app by reading a NFC NDEF Tag. 
