@@ -37,14 +37,21 @@
   "devDependencies": {
     "@iotize/device-client.js": "0.0.1-alpha.59",
     "rxjs": "^6.3.3",
-    "typescript": "^3.2.2"
+    "typescript": "^3.2.2",
+    "uglifyjs-webpack-plugin": "^2.1.2",
+    "webpack": "^4.29.6",
+    "webpack-bundle-analyzer": "^3.1.0",
+    "webpack-cli": "^3.3.0",
+    "webpack-rxjs-externals": "^2.0.0"
   },
   "peerDependencies": {
     "@iotize/device-client.js": "^0.0.1-alpha.59",
     "rxjs": "^6.0.0"
   },
   "scripts": {
-    "build": "npm run clean && tsc -p ./tsconfig.json",
+    "build": "npm run build:ts && npm run build:webpack",
+    "build:ts": "tsc -p ./tsconfig.json",
+    "build:webpack": "webpack --config webpack.config.js",
     "clean": "rm -rf ./dist/*",
     "prepare": "npm run build"
   }
