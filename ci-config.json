@@ -8,8 +8,7 @@
             "src",
             "www",
             "README.md",
-            "CHANGELOG.md",
-            "package-lock.json"
+            "CHANGELOG.md"
         ]
     }
 }

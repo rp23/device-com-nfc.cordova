@@ -1,0 +1,12 @@
+*.DS_Store
+*.pdb
+*.pri
+*.bat
+.vs
+node_modules
+obj
+bin
+.idea
+projects
+README-DEV.md
+node_modules
