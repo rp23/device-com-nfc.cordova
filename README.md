@@ -34,7 +34,9 @@ Check out the official documentation for more precise informations.
 
 In order to launch your application and access the NDEF tag from within your android application, you need two things:
 
-- Adding an intent-filter your app AndroidManifest.xml like stated in [Launching Application when Scanning a Tag](#launching-your-android-application-when-scanning-a-tag). *NB:\<data android:mimeType="application/YOUR_APPLICATION_PACKAGE" /> for an 'unknown' NDEF type*
+- Adding an intent-filter your app AndroidManifest.xml like stated in [Launching Application when Scanning a Tag](#launching-your-android-application-when-scanning-a-tag).
+
+    *NB:\<data android:mimeType="application/YOUR_APPLICATION_PACKAGE" /> for an 'unknown' NDEF type*
 - Listening to Mime events (see [NFC.addMimeTypeListener](#nfc.addMimeTypeListener)) *NB: Any MimeType would do, for example 'text/bogus'. See [this issue](https://github.com/chariotsolutions/phonegap-nfc/issues/217#issuecomment-164802659) on the original plugin*
 
 You can then have the same callback on both listener. Here's an example using Ionic and typescript:
@@ -52,7 +54,7 @@ You can then have the same callback on both listener. Here's an example using Io
 
       if (this.platform.is('android')) {
         
-        this.nfc.addMimeTypeListener("text/bogus",() => {
+        this.nfc.addMimeTypeListener("text/bogus",() => { // replace "text/bogus" with what you defined as intent-filter in the AndroidManifest.xml
           console.log('NFCMime listener ON')
         },
           (error) => {

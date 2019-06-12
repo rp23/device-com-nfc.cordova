@@ -708,6 +708,8 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
             if (action.equals(NfcAdapter.ACTION_NDEF_DISCOVERED)) {
                 Ndef ndef = Ndef.get(tag);
                 fireNdefEvent(NDEF_MIME, ndef, messages);
+                Log.d(TAG, "Saving Intent for connect" + intent);
+                savedIntent = intent;
 
             } else if (action.equals(NfcAdapter.ACTION_TECH_DISCOVERED)) {
                 for (String tagTech : tag.getTechList()) {
