@@ -34,7 +34,7 @@ Check out the official documentation for more precise informations.
 
 In order to launch your application and access the NDEF tag from within your android application, you need two things:
 
-- Adding an intent-filter your app AndroidManifest.xml like stated in [Launching Application when Scanning a Tag](#launching-your-android-application-when-scanning-a-tag). You also can do it within the config.xml file of your app (see [below](#edit-androidmanifest-using-config.xml))
+- Adding an intent-filter your app AndroidManifest.xml like stated in [Launching Application when Scanning a Tag](#launching-your-android-application-when-scanning-a-tag). You also can do it within the config.xml file of your app (see [below](#edit-androidmanifest-using-configxml))
 
     *NB:```<data android:mimeType="application/YOUR_APPLICATION_PACKAGE" />``` for an 'unknown' NDEF type*
 - Listening to Mime events (see [NFC.addMimeTypeListener](#nfc.addMimeTypeListener)) *NB: Any MimeType would do as long as it corresponds to the one registered in AndroidManifest, here 'application/YOUR_APPLICATION_PACKAGE'. See [this issue](https://github.com/chariotsolutions/phonegap-nfc/issues/217#issuecomment-164802659) on the original plugin*
