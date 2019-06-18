@@ -34,10 +34,10 @@ Check out the official documentation for more precise informations.
 
 In order to launch your application and access the NDEF tag from within your android application, you need two things:
 
-- Adding an intent-filter your app AndroidManifest.xml like stated in [Launching Application when Scanning a Tag](#launching-your-android-application-when-scanning-a-tag).
+- Adding an intent-filter your app AndroidManifest.xml like stated in [Launching Application when Scanning a Tag](#launching-your-android-application-when-scanning-a-tag). You also can do it within the config.xml file of your app (see [below](#edit-androidmanifest-using-config.xml))
 
-    *NB:\<data android:mimeType="application/YOUR_APPLICATION_PACKAGE" /> for an 'unknown' NDEF type*
-- Listening to Mime events (see [NFC.addMimeTypeListener](#nfc.addMimeTypeListener)) *NB: Any MimeType would do, for example 'text/bogus'. See [this issue](https://github.com/chariotsolutions/phonegap-nfc/issues/217#issuecomment-164802659) on the original plugin*
+    *NB:```<data android:mimeType="application/YOUR_APPLICATION_PACKAGE" />``` for an 'unknown' NDEF type*
+- Listening to Mime events (see [NFC.addMimeTypeListener](#nfc.addMimeTypeListener)) *NB: Any MimeType would do as long as it corresponds to the one registered in AndroidManifest, here 'application/YOUR_APPLICATION_PACKAGE'. See [this issue](https://github.com/chariotsolutions/phonegap-nfc/issues/217#issuecomment-164802659) on the original plugin*
 
 You can then have the same callback on both listener. Here's an example using Ionic and typescript:
 
@@ -54,7 +54,7 @@ You can then have the same callback on both listener. Here's an example using Io
 
       if (this.platform.is('android')) {
         
-        this.nfc.addMimeTypeListener("text/bogus",() => { // replace "text/bogus" with what you defined as intent-filter in the AndroidManifest.xml
+        this.nfc.addMimeTypeListener("application/YOUR_APPLICATION_PACKAGE",() => { // replace "application/YOUR_APPLICATION_PACKAGE" with what you defined as intent-filter in the AndroidManifest.xml
           console.log('NFCMime listener ON')
         },
           (error) => {
@@ -65,6 +65,32 @@ You can then have the same callback on both listener. Here's an example using Io
       }
   }
 ```
+## Edit AndroidManifest using config.xml
+
+Using cordova config-file node, you may edit AndroidManifest.xml file when adding the android platform. Copy the following snippet and add it inside the ```<platform name="android">``` node of your project's config.xml file: 
+
+```xml
+<config-file parent="/manifest/application/activity[@android:name='MainActivity']" target="app/src/main/AndroidManifest.xml" xmlns:android="http://schemas.android.com/apk/res/android">
+    <intent-filter>
+        <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:host="YOUR_UNIVERSAL_LINK" android:scheme="http" />
+        <data android:host="YOUR_UNIVERSAL_LINK" android:scheme="https" />
+        <!-- replace YOUR_UNIVERSAL_LINK with the universal link you configured in your IoTize Tap -->
+    </intent-filter>
+    <intent-filter>
+        <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:mimeType="application/YOUR_APPLICATION_PACKAGE" />
+    </intent-filter>
+    <intent-filter>
+        <action android:name="android.nfc.action.TAG_DISCOVERED" />
+        <category android:name="android.intent.category.DEFAULT" />
+    </intent-filter>
+</config-file>
+```
+
+Replace YOUR_UNIVERSAL_LINK and YOUR_APPLICATION_PACKAGE according to your application and IoTize tap configuration
 
 PhoneGap NFC Plugin
 ==========================
