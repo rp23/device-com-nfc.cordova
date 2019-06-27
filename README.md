@@ -8,7 +8,9 @@ You can use this plugin with the ionic-native NFC provider:
 
     npm i @ionic-native/nfc
 
-## iOS Feature:
+## Notes about Application launch on NFC NDEF Tag
+
+### iOS:
 
 With the proper configuration, it is now possible to launch a phoneGap / cordova app by reading a NFC NDEF Tag. 
 
@@ -30,7 +32,7 @@ Check out the official documentation for more precise informations.
 
 - [Support Universal Links](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/UniversalLinks.html)
 
-## Notes about Application launch on NFC NDEF Tag
+### Android:
 
 In order to launch your application and access the NDEF tag from within your android application, you need two things:
 
