@@ -6,7 +6,7 @@
         "node_modules/@types"
       ],
       "moduleResolution": "node",
-      "noImplicitAny": false,
+      "noImplicitAny": true,
       "removeComments": true,
       "sourceMap": true,
       "inlineSources": true,

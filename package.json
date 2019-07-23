@@ -35,7 +35,9 @@
   },
   "homepage": "https://github.com/iotize-sas/device-com-nfc.cordova#readme",
   "devDependencies": {
-    "@iotize/device-client.js": "0.0.1-alpha.59",
+    "@iotize/device-client.js": "0.0.1-alpha.96",
+    "@types/debug": "^4.1.4",
+    "@types/node": "^12.6.8",
     "compression-webpack-plugin": "^2.0.0",
     "rxjs": "^6.3.3",
     "typescript": "^3.2.2",
@@ -46,14 +48,18 @@
     "webpack-rxjs-externals": "^2.0.0"
   },
   "peerDependencies": {
-    "@iotize/device-client.js": "^0.0.1-alpha.59",
+    "@iotize/device-client.js": "^0.0.1-alpha.96",
     "rxjs": "^6.0.0"
   },
   "scripts": {
-    "build": "npm run build:ts && npm run build:webpack",
+    "build": "npm run clean && npm run build:ts && npm run build:webpack",
+    "prepare": "npm run build",
     "build:ts": "tsc -p ./tsconfig.json",
     "build:webpack": "webpack --config webpack.config.js",
     "clean": "rm -rf ./dist/*",
     "test": "echo 'no test yet'"
+  },
+  "dependencies": {
+    "debug": "^4.1.1"
   }
 }

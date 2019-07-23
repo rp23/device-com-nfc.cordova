@@ -6,41 +6,41 @@
 //
 
 import { QueueComProtocol } from '@iotize/device-client.js/protocol/impl/queue-com-protocol';
-import { ComProtocolConnectOptions, ComProtocolDisconnectOptions, ComProtocolSendOptions } from '@iotize/device-client.js/protocol/api/com-protocol.interface';
+import { ComProtocolConnectOptions, ComProtocolDisconnectOptions, ComProtocolSendOptions, ComProtocolOptions } from '@iotize/device-client.js/protocol/api/com-protocol.interface';
 import { FormatHelper } from '@iotize/device-client.js/core/format/format-helper';
 import { from, Observable } from 'rxjs';
 import { CordovaInterface } from './cordova-interface';
+import { debug } from './logger';
+import { ConnectionState } from '@iotize/device-client.js/protocol/api';
+import { NfcError } from './errors';
 
 declare var nfc: CordovaInterface;
 
 export class NFCComProtocol extends QueueComProtocol {
 
-    log(level: 'info' | 'error' | 'debug', ...args: any[]): void {
-        console[level](level.toUpperCase() + " [NFCComProtocol] | " + args.map(entry => {
-            if (typeof entry === 'object'){
-                return JSON.stringify(entry);
-            }
-            else {
-                return entry;
-            }
-        }).join(" "));
+    constructor(options: ComProtocolOptions = {
+        connect: {
+            timeout: 2000
+        },
+        disconnect: {
+            timeout: 1000
+        },
+        send: {
+            timeout: 1000
+        }
+    }) {
+        super();
+        this.options = options;
+        if (typeof nfc == undefined) {
+            console.warn("NFC plugin has not been setup properly. Global variable NFC does not exist");
+        }
     }
 
-   constructor() {
-       super();
-       this.options.connect.timeout = 2000;
-       if (typeof nfc == undefined){
-           console.warn("NFC plugin has not been setup properly. Global variable NFC does not exist");
-       }
-   }
-
-
     _connect(options?: ComProtocolConnectOptions): Observable<any> {
-        this.log('info', '_connect', options);
+        debug('_connect', options);
         let connectPromise = nfc.connect("android.nfc.tech.NfcV", this.options.connect.timeout)
         return from(connectPromise);
     }
-
 
     _disconnect(options?: ComProtocolDisconnectOptions): Observable<any> {
         return from(nfc.close());
@@ -54,18 +54,51 @@ export class NFCComProtocol extends QueueComProtocol {
         throw new Error("Method not implemented.");
     }
 
-    send(data: Uint8Array, options ?: ComProtocolSendOptions): Observable<Uint8Array>{
+    send(data: Uint8Array, options?: ComProtocolSendOptions): Observable<Uint8Array> {
         let promise = nfc
             .transceive(FormatHelper.toHexString(data))
             .then((response: string) => {
-                if (typeof response != "string"){
-                    throw new Error(`Internal error. Plugin should respond a hexadecimal string`);
+                if (typeof response != "string") {
+                    throw NfcError.internalError(`Internal error. Plugin should respond a hexadecimal string`);
                 }
-                this.log('debug', 'NFC plugin response: ', response)
+                debug('NFC plugin response: ', response)
                 return FormatHelper.hexStringToBuffer(response)
+            })
+            .catch((errString) => {
+                if (typeof errString === "string") {
+                    let error = stringToError(errString);
+                    if (error.code == NfcError.ErrorCode.NotConnectedError) {
+                        this.setConnectionState(ConnectionState.DISCONNECTED);
+                    }
+                    else if (error.code == NfcError.ErrorCode.TagLostError) {
+                        this.setConnectionState(ConnectionState.DISCONNECTED);
+                    }
+                    throw error;
+                }
+                else {
+                    throw errString;
+                }
             });
         return from(promise);
     }
 
- };
+};
 
+ /**
+  * Convert error string returned by the plugin into an error object
+  * It only checks a few Android error string for now
+  * 
+  * TODO complete implementation with other error types
+  * 
+  * @param errString 
+  */
+function stringToError(errString: string): NfcError {
+    switch (errString.toLowerCase()) {
+        case 'not connected':
+            return NfcError.notConnectedError();
+        case 'tag was lost':
+            return NfcError.tagLostError();
+        default:
+            return NfcError.unknownError(errString);
+    }
+}
