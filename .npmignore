@@ -10,3 +10,11 @@ bin
 projects
 README-DEV.md
 node_modules
+demo
+tests
+src
+doc
+.nyc_output
+webpack.config.js
+tsconfig.json
+./*.tgz

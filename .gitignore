@@ -9,3 +9,4 @@ Makefile
 .project
 out/
 node_modules
+demo
