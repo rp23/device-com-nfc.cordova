@@ -1,5 +1,6 @@
 export interface TapNfcTagPayload {
-    universalLink?: string;
+    type?: number;
+    name?: string;
     aar?: string;
     uri?: string;
     macAddress?: string;

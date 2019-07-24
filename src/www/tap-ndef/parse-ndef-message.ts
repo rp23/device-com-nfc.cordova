@@ -8,15 +8,17 @@ import { FormatHelper } from "@iotize/device-client.js/core/format/format-helper
 export function parseTapNdefMessage(messages: NdefRecord[]): TapNfcTagPayload {
     let result: TapNfcTagPayload = {};
     if (messages.length >= 1) {
-        result.uri = toAsciiString(messages[0].payload);
+        let asciiUri = messages[0].payload;
+        result.uri = toAsciiString(asciiUri);
     }
     if (messages.length >= 2) {
         result.aar = toAsciiString(messages[1].payload);
     }
     if (messages.length >= 3) {
-        let payload3 = messages[3].payload;
+        let payload3 = messages[2].payload;
         let type = payload3[0];
         let content = payload3.slice(1);
+        result.type = type;
 
         switch (type) {
             case TapNdefProtocolType.BLE:
@@ -25,11 +27,10 @@ export function parseTapNdefMessage(messages: NdefRecord[]): TapNfcTagPayload {
             case TapNdefProtocolType.WiFi:
                 result.ssid = toAsciiString(content);
                 break;
-
         }
     }
     if (messages.length >= 4) {
-        result.universalLink = toAsciiString( messages[4].payload);
+        result.name = toAsciiString( messages[3].payload);
     }
     return result;
 }
@@ -40,6 +41,9 @@ enum TapNdefProtocolType {
 }
 
 function toAsciiString(payload: number[]): string {
+    if (payload.length > 0 && payload[0] === 0){
+        payload = payload.slice(1);
+    }
     return FormatHelper.toAsciiString(payload as any as Uint8Array);
 }
 
