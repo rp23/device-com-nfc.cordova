@@ -10,3 +10,4 @@ Makefile
 out/
 node_modules
 demo
+generated

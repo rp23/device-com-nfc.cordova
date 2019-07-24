@@ -18,3 +18,5 @@ doc
 webpack.config.js
 tsconfig.json
 ./*.tgz
+generated
+test
