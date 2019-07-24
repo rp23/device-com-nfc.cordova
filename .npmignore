@@ -12,11 +12,12 @@ README-DEV.md
 node_modules
 demo
 tests
-src
+src/www
 doc
 .nyc_output
 webpack.config.js
-tsconfig.json
+tsconfig*.json
 ./*.tgz
 generated
 test
+ci-config.json

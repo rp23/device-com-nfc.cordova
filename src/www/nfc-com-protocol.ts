@@ -93,12 +93,14 @@ export class NFCComProtocol extends QueueComProtocol {
   * @param errString 
   */
 function stringToError(errString: string): NfcError {
-    switch (errString.toLowerCase()) {
-        case 'not connected':
-            return NfcError.notConnectedError();
-        case 'tag was lost':
-            return NfcError.tagLostError();
-        default:
-            return NfcError.unknownError(errString);
+    let errStringLc = errString.toLowerCase();
+    if (errStringLc.indexOf('tag was lost') >= 0){
+        return NfcError.tagLostError();
+    }
+    else if (errStringLc.indexOf('not connected') >= 0){
+        return NfcError.notConnectedError();
+    }
+    else {
+        return NfcError.unknownError(errString);
     }
 }

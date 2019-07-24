@@ -7,14 +7,14 @@ export class NfcError extends Error {
     public static tagLostError(){
         return new NfcError(
             NfcError.ErrorCode.TagLostError,
-            'Tag lost'
+            'NFC tag lost'
         );
     }
 
     public static notConnectedError(){
         return new NfcError(
             NfcError.ErrorCode.NotConnectedError,
-            'Tag is not connected'
+            'NFC tag is not connected'
         );
     } 
 
