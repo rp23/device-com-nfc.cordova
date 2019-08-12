@@ -67,11 +67,10 @@ export class NFCComProtocol extends QueueComProtocol {
             .catch((errString) => {
                 if (typeof errString === "string") {
                     let error = stringToError(errString);
-                    if (error.code == NfcError.ErrorCode.NotConnectedError) {
-                        this.setConnectionState(ConnectionState.DISCONNECTED);
-                    }
-                    else if (error.code == NfcError.ErrorCode.TagLostError) {
-                        this.setConnectionState(ConnectionState.DISCONNECTED);
+                    if (error.code === NfcError.ErrorCode.NotConnectedError || error.code === NfcError.ErrorCode.TagLostError) {
+                        if (this.connectionState !== ConnectionState.DISCONNECTED) {
+                            this.setConnectionState(ConnectionState.DISCONNECTED);
+                        }
                     }
                     throw error;
                 }
@@ -84,20 +83,20 @@ export class NFCComProtocol extends QueueComProtocol {
 
 };
 
- /**
-  * Convert error string returned by the plugin into an error object
-  * It only checks a few Android error string for now
-  * 
-  * TODO complete implementation with other error types
-  * 
-  * @param errString 
-  */
+/**
+ * Convert error string returned by the plugin into an error object
+ * It only checks a few Android error string for now
+ * 
+ * TODO complete implementation with other error types
+ * 
+ * @param errString 
+ */
 function stringToError(errString: string): NfcError {
     let errStringLc = errString.toLowerCase();
-    if (errStringLc.indexOf('tag was lost') >= 0){
+    if (errStringLc.indexOf('tag was lost') >= 0) {
         return NfcError.tagLostError();
     }
-    else if (errStringLc.indexOf('not connected') >= 0){
+    else if (errStringLc.indexOf('not connected') >= 0) {
         return NfcError.notConnectedError();
     }
     else {
