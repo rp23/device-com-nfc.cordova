@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<plugin
-    xmlns="http://www.phonegap.com/ns/plugins/1.0"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    id="cordova-plugin-iotize-device-com-nfc"
-    version="1.0.0-alpha.10">
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0" 
+    xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-iotize-device-com-nfc" version="1.0.0-alpha.10">
 
     <name>cordova-plugin-iotize-device-com-nfc</name>
 
@@ -30,10 +27,8 @@
         </config-file>
         <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
 
-        <source-file src="src/android/src/com/chariotsolutions/nfc/plugin/NfcPlugin.java"
-            target-dir="src/com/chariotsolutions/nfc/plugin"/>
-        <source-file src="src/android/src/com/chariotsolutions/nfc/plugin/Util.java"
-            target-dir="src/com/chariotsolutions/nfc/plugin"/>
+        <source-file src="src/android/src/com/chariotsolutions/nfc/plugin/NfcPlugin.java" target-dir="src/com/chariotsolutions/nfc/plugin"/>
+        <source-file src="src/android/src/com/chariotsolutions/nfc/plugin/Util.java" target-dir="src/com/chariotsolutions/nfc/plugin"/>
 
         <config-file target="AndroidManifest.xml" parent="/manifest">
             <uses-permission android:name="android.permission.NFC"/>
@@ -120,31 +115,34 @@
             <feature name="NfcPlugin">
                 <param name="ios-package" value="NfcPlugin" />
             </feature>
+            <preference name="deployment-target" value="11" />
+            <preference name="SwiftVersion" value="4" />
+
         </config-file>
+        <source-file src="src/ios/NFCTapPlugin.swift" />
+        <source-file src="src/ios/ISO15Reader.swift" />
+        <source-file src="src/ios/NFCNDEFDelegate.swift" />
+
 
         <config-file platform="ios" target="*-Debug.plist" parent="com.apple.developer.nfc.readersession.formats">
             <array>
                 <string>NDEF</string>
+                <string>TAG</string>
             </array>
         </config-file>
 
         <config-file platform="ios" target="*-Release.plist" parent="com.apple.developer.nfc.readersession.formats">
             <array>
                 <string>NDEF</string>
+                <string>TAG</string>
             </array>
         </config-file>
-        
-        <header-file src="src/ios/NfcPlugin.h" />
-        <source-file src="src/ios/NfcPlugin.m" />
-        <header-file src="src/ios/NFCPlugin-Bridging-Header.h" />
-        <source-file src="src/ios/AppDelegate+NFC.swift" />
 
         <!-- frameworks -->
         <framework src="CoreNFC.framework" />
 
-        <preference name="NFC_USAGE_DESCRIPTION" default="Read NFC Tags" />
         <config-file target="*-Info.plist" parent="NFCReaderUsageDescription">
-            <string>$NFC_USAGE_DESCRIPTION</string>
+            <string>Communicate with IoTize NFC Tags</string>
         </config-file>
     </platform>
 
