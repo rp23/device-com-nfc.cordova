@@ -97,7 +97,7 @@ import UIKit
 
     @objc(transceive:)
     func transceive(command: CDVInvokedUrlCommand) {
-        guard #available(13.0, *) else {
+        guard #available(iOS 13.0, *) else {
             self.sendError(command: command, result: "transceive is only available on iOS 13+")
         }
         DispatchQueue.main.async {
