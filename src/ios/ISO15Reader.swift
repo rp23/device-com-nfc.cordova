@@ -74,7 +74,7 @@ class ST25DVReader : NSObject {
         comSession?.invalidate()
     }
     
-    func transceive( request: String, completed: @escaping (Data?,Error?)->() ) {
+    func send( request: String, completed: @escaping (Data?,Error?)->() ) {
         
         guard NFCNDEFReaderSession.readingAvailable else {
             let error = NFCReaderError( NFCReaderError.readerErrorUnsupportedFeature )
@@ -92,7 +92,7 @@ class ST25DVReader : NSObject {
         
         let requestData : Data = request.dataFromHexString()
         print( "Transceive - \(requestData.hexEncodedString())" )
-        transceive2(request: requestData,
+        transceive(request: requestData,
                    completed: { ( response: Data?, error: Error?) in
                             if nil != error {
                                 self.invalidateSession( message: error?.localizedDescription ?? "Error" )
@@ -178,7 +178,7 @@ extension ST25DVReader {
     
     
 
-    func transceive2(request: Data, completed: @escaping (Data?, Error?)->()){
+    func transceive(request: Data, completed: @escaping (Data?, Error?)->()){
        
 
         checkMBEnabled( completed: { ( error: Error?) in

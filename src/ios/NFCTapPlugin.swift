@@ -58,6 +58,7 @@ import UIKit
     func connect(command: CDVInvokedUrlCommand) {
         guard #available(iOS 13.0, *) else {
             self.sendError(command: command, result: "connect is only available on iOS 13+")
+            return
         }
         DispatchQueue.main.async {
             print("Begin session \(self.nfcController)")
@@ -83,6 +84,7 @@ import UIKit
     func close(command: CDVInvokedUrlCommand) {
         guard #available(iOS 13.0, *) else {
             self.sendError(command: command, result: "close is only available on iOS 13+")
+            return
         }
         DispatchQueue.main.async {
             if self.nfcController == nil {
@@ -99,6 +101,7 @@ import UIKit
     func transceive(command: CDVInvokedUrlCommand) {
         guard #available(iOS 13.0, *) else {
             self.sendError(command: command, result: "transceive is only available on iOS 13+")
+            return
         }
         DispatchQueue.main.async {
             print("sending ...")

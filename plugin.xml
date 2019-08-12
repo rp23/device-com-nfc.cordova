@@ -122,6 +122,7 @@
         <source-file src="src/ios/NFCTapPlugin.swift" />
         <source-file src="src/ios/ISO15Reader.swift" />
         <source-file src="src/ios/NFCNDEFDelegate.swift" />
+        <source-file src="src/ios/NFCPlugin-bridging-header.h" />
 
 
         <config-file platform="ios" target="*-Debug.plist" parent="com.apple.developer.nfc.readersession.formats">
