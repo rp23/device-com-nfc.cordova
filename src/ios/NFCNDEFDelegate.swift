@@ -30,7 +30,7 @@ class NFCNDEFDelegate: NSObject, NFCNDEFReaderSessionDelegate {
     func readerSession(_: NFCNDEFReaderSession, didInvalidateWithError _: Error) {
         completed(nil, "NFCNDEFReaderSession error" as? Error)
     }
-
+    
     func readerSessionDidBecomeActive(_: NFCNDEFReaderSession) {
         print("NDEF Reader session active")
     }
@@ -40,7 +40,7 @@ class NFCNDEFDelegate: NSObject, NFCNDEFReaderSessionDelegate {
         completed(response, nil)
     }
     
-
+    
     func ndefMessageToJSON(message: NFCNDEFMessage) -> [AnyHashable: Any] {
         let array = NSMutableArray()
         for record in message.records {
@@ -49,8 +49,12 @@ class NFCNDEFDelegate: NSObject, NFCNDEFReaderSessionDelegate {
         }
         let wrapper = NSMutableDictionary()
         wrapper.setObject(array, forKey: "ndefMessage" as NSString)
-//        return self.dictionaryAsJSONString(dictionary: wrapper)
-        return wrapper as! [AnyHashable : Any]
+        
+        let returnedJSON = NSMutableDictionary()
+        returnedJSON.setValue("ndef", forKey: "type")
+        returnedJSON.setObject(wrapper, forKey: "tag" as NSString)
+        //        return self.dictionaryAsJSONString(dictionary: wrapper)
+        return returnedJSON as! [AnyHashable : Any]
     }
     
     func ndefToNSDictionary(record: NFCNDEFPayload) -> NSDictionary {

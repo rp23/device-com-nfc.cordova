@@ -36,6 +36,20 @@ export class NFCComProtocol extends QueueComProtocol {
         }
     }
 
+    public static iOSProtocol(): NFCComProtocol {
+        return new NFCComProtocol({
+            connect: {
+            timeout: 10000 // bigger timer on connect as connect launches a reading session
+            },
+            disconnect: {
+              timeout: 1000
+            },
+            send: {
+              timeout: 1000
+            }
+          })
+    }
+
     _connect(options?: ComProtocolConnectOptions): Observable<any> {
         debug('_connect', options);
         let connectPromise = nfc.connect("android.nfc.tech.NfcV", this.options.connect.timeout)

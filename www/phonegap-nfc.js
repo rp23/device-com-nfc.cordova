@@ -486,7 +486,11 @@ var nfc = {
         cordova.exec(win, fail, "NfcPlugin", "showSettings", []);
     },
 
-    // // iOS only
+    // iOS only
+
+    getNDEFTag: function (win, fail) {
+        cordova.exec(win, fail, "NfcPlugin", "getNDEFTag", []);
+    },
     // beginSession: function (win, fail) {
     //     cordova.exec(win, fail, "NfcPlugin", "beginSession", []);
     // },
