@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 // Main class handling the plugin functionalities.
-@objc(NFCPlugin) class NFCPlugin: CDVPlugin {
+@objc(NfcPlugin) class NfcPlugin: CDVPlugin {
     var nfcController: NSObject? // ST25DVReader downCast as NSObject for iOS version compatibility
     var ndefController: NFCNDEFDelegate?
     var lastError: Error?
@@ -57,7 +57,7 @@ import UIKit
     @objc(connect:)
     func connect(command: CDVInvokedUrlCommand) {
         guard #available(iOS 13.0, *) else {
-            self.sendError(command: command, result: "connect is only available on iOS 13+")
+            sendError(command: command, result: "connect is only available on iOS 13+")
             return
         }
         DispatchQueue.main.async {
@@ -83,7 +83,7 @@ import UIKit
     @objc(close:)
     func close(command: CDVInvokedUrlCommand) {
         guard #available(iOS 13.0, *) else {
-            self.sendError(command: command, result: "close is only available on iOS 13+")
+            sendError(command: command, result: "close is only available on iOS 13+")
             return
         }
         DispatchQueue.main.async {
@@ -100,7 +100,7 @@ import UIKit
     @objc(transceive:)
     func transceive(command: CDVInvokedUrlCommand) {
         guard #available(iOS 13.0, *) else {
-            self.sendError(command: command, result: "transceive is only available on iOS 13+")
+            sendError(command: command, result: "transceive is only available on iOS 13+")
             return
         }
         DispatchQueue.main.async {
@@ -116,8 +116,13 @@ import UIKit
                 return
             }
 
-            let request = command.arguments[0] as? String ?? ""
-            print("sens request  - \(request)")
+            guard let data: NSData = command.arguments[0] as? NSData else {
+                self.sendError(command: command, result: "Tried to transceive empty string")
+                return
+            }
+            let request = data.map { String(format: "%02x", $0) }
+                .joined()
+            print("send request  - \(request)")
 
             (self.nfcController as! ST25DVReader).send(request: request, completed: {
                 (response: Data?, error: Error?) -> Void in
