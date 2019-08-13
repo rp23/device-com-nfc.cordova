@@ -36,14 +36,18 @@ class NFCNDEFDelegate: NSObject, NFCNDEFReaderSessionDelegate {
     }
     
     func fireNdefEvent(message: NFCNDEFMessage) {
-        let response = self.ndefMessageToJSON(message: message)
+        let response = message.ndefMessageToJSON()
         completed(response, nil)
     }
     
     
-    func ndefMessageToJSON(message: NFCNDEFMessage) -> [AnyHashable: Any] {
+    
+}
+
+extension NFCNDEFMessage {
+    func ndefMessageToJSON() -> [AnyHashable: Any] {
         let array = NSMutableArray()
-        for record in message.records {
+        for record in self.records {
             let recordDictionary = self.ndefToNSDictionary(record: record)
             array.add(recordDictionary)
         }
@@ -53,7 +57,7 @@ class NFCNDEFDelegate: NSObject, NFCNDEFReaderSessionDelegate {
         let returnedJSON = NSMutableDictionary()
         returnedJSON.setValue("ndef", forKey: "type")
         returnedJSON.setObject(wrapper, forKey: "tag" as NSString)
-        //        return self.dictionaryAsJSONString(dictionary: wrapper)
+
         return returnedJSON as! [AnyHashable : Any]
     }
     
@@ -65,19 +69,5 @@ class NFCNDEFDelegate: NSObject, NFCNDEFReaderSessionDelegate {
         dict.setObject([UInt8](record.payload), forKey: "payload" as NSString)
         
         return dict
-    }
-    
-    func dictionaryAsJSONString(dictionary: NSMutableDictionary) -> NSString {
-        var json: Data
-        var jsonString: NSString
-        do {
-            try json = JSONSerialization.data(withJSONObject: dictionary)
-            jsonString = NSString.init(data: json, encoding: String.Encoding.utf8.rawValue)!
-        } catch {
-            print("\(error)")
-            jsonString = NSString.localizedStringWithFormat("Error creating JSON for NDEF Message, \(error)" as NSString)
-        }
-        
-        return jsonString
     }
 }
