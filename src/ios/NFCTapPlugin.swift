@@ -153,8 +153,8 @@ import UIKit
         sendSuccess(command: command, result: "NDEF Listener is on")
     }
 
-    @objc(getNDEFTag:)
-    func getNDEFTag(command: CDVInvokedUrlCommand) {
+    @objc(beginNDEFSession:)
+    func beginNDEFSession(command: CDVInvokedUrlCommand) {
         DispatchQueue.main.async {
             print("Begin NDEF reading session")
 
@@ -236,5 +236,15 @@ import UIKit
         commandDelegate!.send(response, callbackId: command.callbackId)
 
 //        self.sendSuccessWithResponse(command: command, result: message)
+    }
+
+    @objc(enabled:)
+    func enabled(command: CDVInvokedUrlCommand) {
+        guard #available(iOS 11.0, *) else {
+            sendError(command: command, result: "enabled is only available on iOS 11+")
+            return
+        }
+        let enabled = NFCReaderSession.readingAvailable
+        sendSuccess(command: command, result: enabled)
     }
 }
