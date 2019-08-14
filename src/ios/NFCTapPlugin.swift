@@ -181,6 +181,24 @@ import UIKit
         }
     }
 
+    @objc(invalidateNDEFSession:)
+    func invalidateNDEFSession(command: CDVInvokedUrlCommand) {
+        guard #available(iOS 11.0, *) else {
+            sendError(command: command, result: "close is only available on iOS 13+")
+            return
+        }
+        DispatchQueue.main.async {
+            guard let session = self.ndefController?.session else {
+                self.sendError(command: command, result: "no session to terminate")
+                return
+            }
+
+            session.invalidate()
+            self.nfcController = nil
+            self.sendSuccess(command: command, result: "Session Ended!")
+        }
+    }
+
     @objc(channel:)
     func channel(command: CDVInvokedUrlCommand) {
         DispatchQueue.main.async {

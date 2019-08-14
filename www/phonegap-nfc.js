@@ -491,14 +491,12 @@ var nfc = {
     getNDEFTag: function (win, fail) {
         cordova.exec(win, fail, "NfcPlugin", "getNDEFTag", []);
     },
-    // beginSession: function (win, fail) {
-    //     cordova.exec(win, fail, "NfcPlugin", "beginSession", []);
-    // },
 
-    // // iOS only
-    // invalidateSession: function (win, fail) {
-    //     cordova.exec(win, fail, "NfcPlugin", "invalidateSession", []);
-    // },
+    // iOS only
+
+    invalidateNDEFSession: function (win, fail) {
+        cordova.exec(win, fail, 'NfcPlugin', 'invalidateNDEFSession', []);
+    },
 
     connect: function(tech, timeout) {
         return new Promise(function(resolve, reject) {
