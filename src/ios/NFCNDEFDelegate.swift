@@ -1,8 +1,9 @@
 //
 //  NFCNDEFDelegate.swift
-//  IoTize Toolbox
+//  NFC
 //
 //  Created by dev@iotize.com on 05/08/2019.
+//  Copyright © 2019 dev@iotize.com. All rights reserved.
 //
 
 import Foundation

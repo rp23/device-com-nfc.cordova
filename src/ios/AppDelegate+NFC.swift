@@ -2,7 +2,7 @@
 //  AppDelegate+NFC.swift
 //  PhoneGap NFC - Cordova Plugin
 //
-//  (c) 2018 IoTize Solutions
+//  Copyright © 2019 dev@iotize.com. All rights reserved.
 
 import CoreNFC
 

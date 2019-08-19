@@ -1,5 +1,5 @@
 //
-//  NFCCom.swift
+//  NFCTapPlugin.swift
 //  NFC
 //
 //  Created by dev@iotize.com on 23/07/2019.
@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreNFC
 
 // Main class handling the plugin functionalities.
 @objc(NfcPlugin) class NfcPlugin: CDVPlugin {
