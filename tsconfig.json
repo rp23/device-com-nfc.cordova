@@ -7,6 +7,18 @@
       ],
       "moduleResolution": "node",
       "noImplicitAny": true,
+      "baseUrl": "./",
+      "paths": {
+        "rxjs": [
+          "node_modules/rxjs/index",
+        ],
+        "rxjs/*": [
+          "node_modules/rxjs/*"
+        ],
+        "@iotize/device-client.js/*": [
+          "node_modules/@iotize/device-client.js/*"
+        ]
+      },
       "removeComments": true,
       "sourceMap": true,
       "inlineSources": true,
