@@ -68,9 +68,7 @@ export class NFCComProtocol extends QueueComProtocol {
                 if (typeof errString === "string") {
                     let error = stringToError(errString);
                     if (error.code === NfcError.ErrorCode.NotConnectedError || error.code === NfcError.ErrorCode.TagLostError) {
-                        if (this.connectionState !== ConnectionState.DISCONNECTED) {
-                            this.setConnectionState(ConnectionState.DISCONNECTED);
-                        }
+                        this._onConnectionLost(error);
                     }
                     throw error;
                 }
@@ -79,6 +77,12 @@ export class NFCComProtocol extends QueueComProtocol {
                 }
             });
         return from(promise);
+    }
+
+    _onConnectionLost(error: NfcError) {
+        if (this.connectionState !== ConnectionState.DISCONNECTED) {
+            this.setConnectionState(ConnectionState.DISCONNECTED);
+        }
     }
 
 };
