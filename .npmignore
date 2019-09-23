@@ -21,3 +21,4 @@ tsconfig*.json
 generated
 test
 ci-config.json
+.vscode
