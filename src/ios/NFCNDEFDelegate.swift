@@ -17,6 +17,10 @@ class NFCNDEFDelegate: NSObject, NFCNDEFReaderSessionDelegate {
         self.completed = completed
         super.init()
         self.session = NFCNDEFReaderSession.init(delegate: self, queue: nil, invalidateAfterFirstRead: false)
+        if (self.session == nil) {
+            self.completed(nil, "NFC is not available" as? Error);
+            return
+        }
         self.session!.alertMessage = message ?? ""
         self.session!.begin()
     }

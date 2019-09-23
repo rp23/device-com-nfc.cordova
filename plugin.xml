@@ -78,7 +78,7 @@
         </config-file>
 
         <!-- frameworks -->
-        <framework src="CoreNFC.framework" />
+        <framework src="CoreNFC.framework" weak="true"/>
 
         <config-file target="*-Info.plist" parent="NFCReaderUsageDescription">
             <string>Communicate with IoTize NFC Tags</string>
