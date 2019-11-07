@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0" 
-    xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-iotize-device-com-nfc" version="1.0.0-alpha.12">
+    xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-iotize-device-com-nfc" version="1.0.0-alpha.13">
 
     <name>cordova-plugin-iotize-device-com-nfc</name>
 
@@ -10,8 +10,6 @@
     <keywords>nfc, NFC, NDEF</keywords>
     <repo>https://github.com/iotize-sas/device-com-nfc.cordova.git</repo>
     <issue>https://github.com/iotize-sas/device-com-nfc.cordova/issues</issue>
-
-    <dependency id="cordova-plugin-add-swift-support"/>
 
     <platform name="android">
         <js-module src="www/phonegap-nfc.js" name="NFC">
@@ -27,6 +25,7 @@
                 <param name="android-package" value="com.iotize.android.communication.nfc.cordovaplugin.NFCCom"/>
             </feature>
         </config-file>
+
         <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
 
         <source-file src="src/android/src/com/chariotsolutions/nfc/plugin/NfcPlugin.java" target-dir="src/com/chariotsolutions/nfc/plugin"/>
@@ -37,13 +36,19 @@
             <uses-feature android:name="android.hardware.nfc" android:required="false"/>
         </config-file>
 
-        <edit-config file="AndroidManifest.xml" target="/manifest/uses-sdk" mode="merge">
-            <uses-sdk android:minSdkVersion="19" />
-        </edit-config>
+        <config-file parent="/manifest/application/activity[@android:name='MainActivity']" target="AndroidManifest.xml" 
+            xmlns:android="http://schemas.android.com/apk/res/android">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/$PACKAGE_NAME" />
+            </intent-filter>
+        </config-file>
 
     </platform>
 
     <platform name="ios">
+        <dependency id="cordova-plugin-add-swift-support"/>
         <js-module src="www/phonegap-nfc.js" name="NFC">
             <runs />
         </js-module>
