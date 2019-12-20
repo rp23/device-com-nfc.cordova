@@ -150,6 +150,26 @@ Removing listeners is not recommended. Instead, consider that your callback can 
 - Android
 - iOS
 
+
+## nfc.addTapDeviceListener 
+
+Registers an event listener for NFC tap
+
+```
+    nfc.addTapDeviceListener([onSuccess], [onFailure]);
+```
+
+Related preference: 
+
+- `boolean` **EnableEncryptionWithNFC** true to enable encryption when connecting to a new Tap.
+- `boolean` **EnableNFCPairing** true to enable NFC pairing when connecting to a new Tap
+- `boolean` **EnableNFCTapDeviceDiscovery** true to enable NFC Tap discovery in the native part of the plugin. 
+- `string` **NFCTapDeviceMimeType** app mime type. Eg: `application/com.iotize.apps.tapmanager`
+
+### Supported Platforms
+
+- Android
+
 ## nfc.addMimeTypeListener
 
 Registers an event listener for NDEF tags matching a specified MIME type.

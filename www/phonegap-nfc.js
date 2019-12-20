@@ -426,6 +426,14 @@ var nfc = {
         cordova.exec(win, fail, "NfcPlugin", "registerNdef", []);
     },
 
+    addTapDeviceListener: function (callback, win, fail) {
+        document.addEventListener("nfc-tap-device", callback, false);
+        win();
+        // cordova.exec(win, fail, "NfcPlugin", "registerTapDevice", [
+        //     JSON.stringify(options)
+        // ]);
+    },
+
     // addNdefFormatableListener: function (callback, win, fail) {
     //     document.addEventListener("ndef-formatable", callback, false);
     //     cordova.exec(win, fail, "NfcPlugin", "registerNdefFormatable", []);
@@ -869,6 +877,7 @@ require('cordova/channel').onCordovaReady.subscribe(function() {
         console.log("Received NFC data, firing '" + message.type + "' event");
         var e = document.createEvent('Events');
         e.initEvent(message.type);
+        e.tap = message.tap;
         e.tag = message.tag;
         document.dispatchEvent(e);
     }

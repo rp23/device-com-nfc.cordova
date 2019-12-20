@@ -55,7 +55,8 @@
   },
   "peerDependencies": {
     "@iotize/device-client.js": "^0.0.1-alpha.96",
-    "rxjs": "^6.0.0"
+    "rxjs": "^6.0.0",
+    "@ionic-native/nfc": "^5.8.0"
   },
   "scripts": {
     "build": "npm run clean && npm run build:ts && npm run build:webpack",
