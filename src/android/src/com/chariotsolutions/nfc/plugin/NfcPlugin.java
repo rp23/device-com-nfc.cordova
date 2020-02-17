@@ -22,11 +22,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.iotize.android.communication.client.impl.IoTizeClient;
+import com.iotize.android.communication.protocol.nfc.NFCIntentParser;
 import com.iotize.android.communication.protocol.nfc.NFCProtocol;
+import com.iotize.android.communication.protocol.nfc.NFCProtocolFactory;
 import com.iotize.android.core.util.Helper;
 import com.iotize.android.device.api.client.EncryptionAlgo;
+import com.iotize.android.device.api.protocol.ProtocolFactory;
 import com.iotize.android.device.device.impl.IoTizeDevice;
-import com.iotize.android.device.device.impl.factory.NFCIntentDeviceFactory;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaArgs;
@@ -44,6 +46,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
 
 // using wildcard imports so we can support Cordova 3.x
@@ -290,21 +293,40 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
         }
     };
 
+    @NonNull
+    private NFCIntentParser getIntentParser(Intent intent) {
+        NFCIntentParser parser = new NFCIntentParser(intent);
+        Tag tag = parser.getTag();
+        if (tag == null) {
+            Log.wtf(TAG, "Intent has a nfc tag null. Intent = " + intent);
+            throw new IllegalArgumentException("NFC tag is null. Retry nfc tap ?");
+        }
+        return parser;
+    }
+
+    private IoTizeDevice createTapFromIntent(Intent intent) throws Exception {
+        Context context = getActivity();
+        NFCIntentParser parser = this.getIntentParser(intent);
+        ProtocolFactory nfcProtocolFactory = new NFCProtocolFactory(parser.getTag());
+        IoTizeDevice tap = IoTizeDevice.fromProtocol(nfcProtocolFactory.create(context));
+        tap.connect();
+        if (preferences.getBoolean(PREF_ENABLE_NFC_PAIRING, true)) {
+            byte[] response = tap.nfcPairing();
+        }
+        if (preferences.getBoolean(PREF_ENABLE_ENCRYPTION_WITH_NFC, false)) {
+            tap.encryption(true);
+        }
+        return tap;
+    }
+
     /**
      * @param intent
      * @return true if nfc intent has been handld
      */
     private boolean onTapDeviceDiscoveredIntent(Intent intent) {
-        NFCIntentDeviceFactory factory = new NFCIntentDeviceFactory(
-                intent,
-                false,
-                preferences.getBoolean(PREF_ENABLE_NFC_PAIRING, true),
-                preferences.getBoolean(PREF_ENABLE_ENCRYPTION_WITH_NFC, false),
-                false
-        );
         try {
             Log.d(TAG, "creating tap device...");
-            IoTizeDevice tap = factory.create(getActivity());
+            IoTizeDevice tap = this.createTapFromIntent(intent);
             mLastTapDiscovered = tap;
             mLastTapDiscoveredIntent = intent;
             if (notifyWhenNfcPairingDone()) {
