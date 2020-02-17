@@ -12,3 +12,5 @@ node_modules
 demo
 generated
 .vscode
+
+src/android/.gradle
