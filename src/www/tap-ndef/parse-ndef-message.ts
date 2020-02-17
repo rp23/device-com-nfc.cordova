@@ -1,5 +1,6 @@
-import { TapNfcTagPayload, NdefRecord } from "./definitions";
-import { FormatHelper } from "@iotize/device-client.js/core/format/format-helper";
+import { bufferToAsciiString } from '@iotize/common/byte-converter';
+
+import { NdefRecord, TapNfcTagPayload } from './definitions';
 
 /**
  * We manage only on NDEF message with 3 records:
@@ -30,7 +31,7 @@ export function parseTapNdefMessage(messages: NdefRecord[]): TapNfcTagPayload {
         }
     }
     if (messages.length >= 4) {
-        result.name = toAsciiString( messages[3].payload);
+        result.name = toAsciiString(messages[3].payload);
     }
     return result;
 }
@@ -41,10 +42,10 @@ enum TapNdefProtocolType {
 }
 
 function toAsciiString(payload: number[]): string {
-    if (payload.length > 0 && payload[0] === 0){
+    if (payload.length > 0 && payload[0] === 0) {
         payload = payload.slice(1);
     }
-    return FormatHelper.toAsciiString(payload as any as Uint8Array);
+    return bufferToAsciiString(payload as any as Uint8Array);
 }
 
 function convertBytesToBLEAddress(bytes: number[]): string {

@@ -4,15 +4,18 @@
 //  ble-com-protocol.ts
 //  device-com-ble.cordova BLE Cordova Plugin
 //
-
-import { QueueComProtocol } from '@iotize/device-client.js/protocol/impl/queue-com-protocol';
-import { ComProtocolConnectOptions, ComProtocolDisconnectOptions, ComProtocolSendOptions, ComProtocolOptions } from '@iotize/device-client.js/protocol/api/com-protocol.interface';
-import { FormatHelper } from '@iotize/device-client.js/core/format/format-helper';
-import { from, Observable } from 'rxjs';
-import { CordovaInterface } from './cordova-interface';
-import { debug } from './logger';
+import { QueueComProtocol } from '@iotize/device-client.js/protocol/core';
+import { ComProtocolSendOptions } from '@iotize/device-client.js/protocol/api';
+import { ComProtocolConnectOptions } from '@iotize/device-client.js/protocol/api';
+import { ComProtocolDisconnectOptions } from '@iotize/device-client.js/protocol/api';
+import { ComProtocolOptions } from '@iotize/device-client.js/protocol/api';
 import { ConnectionState } from '@iotize/device-client.js/protocol/api';
+import { from, Observable } from 'rxjs';
+
+import { CordovaInterface } from './cordova-interface';
 import { NfcError } from './errors';
+import { debug } from './logger';
+
 
 declare var nfc: CordovaInterface;
 
@@ -39,15 +42,15 @@ export class NFCComProtocol extends QueueComProtocol {
     public static iOSProtocol(): NFCComProtocol {
         return new NFCComProtocol({
             connect: {
-            timeout: 10000 // bigger timer on connect as connect launches a reading session
+                timeout: 10000 // bigger timer on connect as connect launches a reading session
             },
             disconnect: {
-              timeout: 1000
+                timeout: 1000
             },
             send: {
-              timeout: 1000
+                timeout: 1000
             }
-          })
+        })
     }
 
     _connect(options?: ComProtocolConnectOptions): Observable<any> {
@@ -70,13 +73,13 @@ export class NFCComProtocol extends QueueComProtocol {
 
     send(data: Uint8Array, options?: ComProtocolSendOptions): Observable<Uint8Array> {
         let promise = nfc
-            .transceive(FormatHelper.toHexString(data))
+            .transceive(bufferToHexString(data))
             .then((response: string) => {
                 if (typeof response != "string") {
                     throw NfcError.internalError(`Internal error. Plugin should respond a hexadecimal string`);
                 }
                 debug('NFC plugin response: ', response)
-                return FormatHelper.hexStringToBuffer(response)
+                return hexStringToBuffer(response)
             })
             .catch((errString) => {
                 if (typeof errString === "string") {
