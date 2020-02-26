@@ -56,7 +56,8 @@
   "peerDependencies": {
     "@iotize/device-client.js": "^0.0.1-alpha.96",
     "rxjs": "^6.0.0",
-    "@ionic-native/nfc": "^5.8.0"
+    "@ionic-native/nfc": "^5.8.0",
+    "debug": "^4.1.1"
   },
   "scripts": {
     "build": "npm run clean && npm run build:ts && npm run build:webpack",
@@ -68,6 +69,5 @@
     "test:unit": "mocha --recursive src/www/**/*.spec.ts"
   },
   "dependencies": {
-    "debug": "^4.1.1"
   }
 }

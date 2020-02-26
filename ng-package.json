@@ -3,13 +3,5 @@
     "dest": "../../dist/libs/@iotize/device-com-nfc.cordova",
     "lib": {
         "entryFile": "src/public_api.ts"
-    },
-    "assets": [
-        "plugin.xml",
-        "LICENSE.txt",
-        "src",
-        "www",
-        "README.md",
-        "CHANGELOG.md"
-    ]
+    }
 }

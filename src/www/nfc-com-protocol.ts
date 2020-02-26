@@ -4,12 +4,15 @@
 //  ble-com-protocol.ts
 //  device-com-ble.cordova BLE Cordova Plugin
 //
+import { bufferToHexString, hexStringToBuffer } from '@iotize/common/byte-converter';
+import {
+    ComProtocolConnectOptions,
+    ComProtocolDisconnectOptions,
+    ComProtocolOptions,
+    ComProtocolSendOptions,
+    ConnectionState,
+} from '@iotize/device-client.js/protocol/api';
 import { QueueComProtocol } from '@iotize/device-client.js/protocol/core';
-import { ComProtocolSendOptions } from '@iotize/device-client.js/protocol/api';
-import { ComProtocolConnectOptions } from '@iotize/device-client.js/protocol/api';
-import { ComProtocolDisconnectOptions } from '@iotize/device-client.js/protocol/api';
-import { ComProtocolOptions } from '@iotize/device-client.js/protocol/api';
-import { ConnectionState } from '@iotize/device-client.js/protocol/api';
 import { from, Observable } from 'rxjs';
 
 import { CordovaInterface } from './cordova-interface';
@@ -55,7 +58,7 @@ export class NFCComProtocol extends QueueComProtocol {
 
     _connect(options?: ComProtocolConnectOptions): Observable<any> {
         debug('_connect', options);
-        let connectPromise = nfc.connect("android.nfc.tech.NfcV", this.options.connect.timeout)
+        const connectPromise = nfc.connect("android.nfc.tech.NfcV", this.options.connect.timeout)
         return from(connectPromise);
     }
 
@@ -72,7 +75,7 @@ export class NFCComProtocol extends QueueComProtocol {
     }
 
     send(data: Uint8Array, options?: ComProtocolSendOptions): Observable<Uint8Array> {
-        let promise = nfc
+        const promise = nfc
             .transceive(bufferToHexString(data))
             .then((response: string) => {
                 if (typeof response != "string") {
@@ -83,7 +86,7 @@ export class NFCComProtocol extends QueueComProtocol {
             })
             .catch((errString) => {
                 if (typeof errString === "string") {
-                    let error = stringToError(errString);
+                    const error = stringToError(errString);
                     if (error.code === NfcError.ErrorCode.NotConnectedError || error.code === NfcError.ErrorCode.TagLostError) {
                         this._onConnectionLost(error);
                     }
@@ -113,7 +116,7 @@ export class NFCComProtocol extends QueueComProtocol {
  * @param errString 
  */
 function stringToError(errString: string): NfcError {
-    let errStringLc = errString.toLowerCase();
+    const errStringLc = errString.toLowerCase();
     if (errStringLc.indexOf('tag was lost') >= 0) {
         return NfcError.tagLostError();
     }
