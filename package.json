@@ -54,8 +54,8 @@
         "webpack-rxjs-externals": "^2.0.0"
     },
     "peerDependencies": {
-        "@iotize/common": "1.0.0-alpha.4",
-        "@iotize/device-client.js": "1.0.0-alpha.5",
+        "@iotize/common": "1.0.0-alpha.7",
+        "@iotize/device-client.js": "1.0.0-alpha.8",
         "rxjs": "^6.0.0",
         "@ionic-native/nfc": "^5.8.0",
         "debug": "^4.1.1"
