@@ -28,7 +28,7 @@
         "cordova-blackberry10",
         "cordova-ios"
     ],
-    "author": "IoTize <dev@iotize.com>",
+    "author": "IoTize <contact@iotize.com>",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/iotize-sas/device-com-nfc.cordova/issues"
