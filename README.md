@@ -165,7 +165,8 @@ Related preference:
 - `boolean` **EnableNFCPairing** true to enable NFC pairing when connecting to a new Tap
 - `boolean` **EnableNFCTapDeviceDiscovery** true to enable NFC Tap discovery in the native part of the plugin. 
 - `string` **NFCTapDeviceMimeType** app mime type. Eg: `application/com.iotize.apps.tapmanager`
-
+- `string` **NFCParingDoneToastMessage** toast messsage displayed when NFC pairing has been done. Give an empty string to disable this message. 
+- 
 ### Supported Platforms
 
 - Android

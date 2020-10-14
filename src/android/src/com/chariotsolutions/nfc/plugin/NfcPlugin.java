@@ -88,6 +88,7 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
     private static final String PREF_TAP_DEVICE_MIME_TYPE = "NFCTapDeviceMimeType";
     private static final String PREF_ENABLE_NFC_PAIRING = "EnableNFCPairing";
     private static final String PREF_ENABLE_ENCRYPTION_WITH_NFC = "EnableEncryptionWithNFC";
+    private static final String PREF_NFC_PAIRING_DONE_TOAST_MESSAGE = "NFCParingDoneToastMessage";
     private static final String REGISTER_NFC_TAP_DEVICE = "registerTapDevice";
 
 //    @Nullable
@@ -329,12 +330,13 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
             IoTizeDevice tap = this.createTapFromIntent(intent);
             mLastTapDiscovered = tap;
             mLastTapDiscoveredIntent = intent;
-            if (notifyWhenNfcPairingDone()) {
+            String nfcPairingDoneUserFeedback = preferences.getString(PREF_NFC_PAIRING_DONE_TOAST_MESSAGE, "NFC pairing done!");
+            if (nfcPairingDoneUserFeedback.length() > 0) {
                 Activity activity = cordova.getActivity();
                 if (activity != null) {
                     activity.runOnUiThread(() -> {
                         try {
-                            Toast.makeText(activity, "NFC pairing done!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity, nfcPairingDoneUserFeedback, Toast.LENGTH_LONG).show();
                         } catch (Throwable err) {
                             Log.w(TAG, err.getMessage(), err);
                         }
