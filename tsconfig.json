@@ -15,8 +15,8 @@
         "rxjs/*": [
           "node_modules/rxjs/*"
         ],
-        "@iotize/device-client.js/*": [
-          "node_modules/@iotize/device-client.js/*"
+        "@iotize/tap/*": [
+          "node_modules/@iotize/tap/*"
         ]
       },
       "removeComments": true,

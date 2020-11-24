@@ -11,8 +11,8 @@ import {
     ComProtocolOptions,
     ComProtocolSendOptions,
     ConnectionState,
-} from '@iotize/device-client.js/protocol/api';
-import { QueueComProtocol } from '@iotize/device-client.js/protocol/core';
+} from '@iotize/tap/protocol/api';
+import { QueueComProtocol } from '@iotize/tap/protocol/core';
 import { from, Observable } from 'rxjs';
 
 import { CordovaInterface } from './cordova-interface';
