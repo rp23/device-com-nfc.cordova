@@ -1,6 +1,7 @@
-# Change Log
+<a name="3.0.0-alpha.1"></a>
+# [3.0.0-alpha.1](https://github.com/iotize-sas/device-com-nfc.cordova/compare/v1.0.0-alpha.9...v3.0.0-alpha.1) (2020-12-11)
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+* Migrated to `@iotize/tap@2.0.0` APIs
 
 <a name="1.0.0-alpha.11">1.0.0-alpha.11</a>
 
