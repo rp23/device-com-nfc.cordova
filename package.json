@@ -55,7 +55,7 @@
     },
     "peerDependencies": {
         "@iotize/common": "^1.2.0",
-        "@iotize/tap": "2.0.0-alpha.1",
+        "@iotize/tap": "^2.0.0",
         "rxjs": "^6.0.0",
         "@ionic-native/nfc": "^5.8.0",
         "debug": "^4.1.1"
