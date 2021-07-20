@@ -236,6 +236,7 @@ extension ST25DVReader {
                     self.sendRequest( request: request, nbTry: nbTry - 1, completed: completed )
                     return
                 }
+                    usleep(ST25DVReader.DELAY * 10) // free ST25DV for SPI
                     self.readResponse( nbTry: nbTry , completed: completed)
             })
         
