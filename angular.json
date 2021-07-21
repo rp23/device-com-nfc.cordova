@@ -1,0 +1,42 @@
+{
+    "version": 1,
+    "defaultProject": "lib",
+    "projects": {
+        "lib": {
+            "projectType": "library",
+            "sourceRoot": "src",
+            "root": ".",
+            "architect": {
+                "build": {
+                    "builder": "@iotize-private/dev-tools-cli:cordova-lib"
+                },
+                "test": {
+                    "builder": "@iotize-private/dev-tools-cli:run-builders",
+                    "options": {
+                        "builders": [
+                            "lib:unit-test"
+                        ]
+                    }
+                },
+                "unit-test": {
+                    "builder": "@iotize-private/dev-tools-cli:mocha",
+                    "options": {
+                        "require": [
+                            "ts-node/register"
+                        ]
+                    }
+                },
+                "coverage": {
+                    "builder": "@iotize-private/dev-tools-cli:nyc",
+                    "options": {
+                        "testCommand": "idtg project unit-test --noFork"
+                    }
+                },
+                "publish": {
+                    "builder": "@iotize-private/dev-tools-cli:npm-publish",
+                    "options": {}
+                }
+            }
+        }
+    }
+}

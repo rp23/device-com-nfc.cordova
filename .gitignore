@@ -15,3 +15,5 @@ generated
 
 src/android/.gradle
 .nycoutput
+test-reports
+*.tmp.json
