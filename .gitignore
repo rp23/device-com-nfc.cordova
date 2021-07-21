@@ -14,3 +14,4 @@ generated
 .vscode
 
 src/android/.gradle
+.nycoutput
