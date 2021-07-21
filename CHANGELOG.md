@@ -1,3 +1,10 @@
+<a name="3.0.1"></a>
+# [3.0.1](https://github.com/iotize-sas/device-com-nfc.cordova/compare/v3.0.0...v3.0.1) (2021-07-21)
+
+### Bug Fixes 
+
+* fix NFC iOS communication: sleep some time to release ST25DV for SPI
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/iotize-sas/device-com-nfc.cordova/compare/v1.0.0-alpha.9...v3.0.0) (2021-02-19)
 
