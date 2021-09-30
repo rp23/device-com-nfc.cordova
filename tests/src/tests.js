@@ -10,10 +10,10 @@ exports.defineAutoTests = function () {
             expect(typeof nfc.addNdefListener).toBe("function");
         });
 
-        it("should contain a readerMode function", function () {
-            expect(typeof nfc.readerMode).toBeDefined();
-            expect(typeof nfc.readerMode).toBe("function");
-        });
+        // it("should contain a readerMode function", function () {
+        //     expect(typeof nfc.readerMode).toBeDefined();
+        //     expect(typeof nfc.readerMode).toBe("function");
+        // });
 
         it("should contain a transceive function", function () {
             expect(typeof nfc.transceive).toBeDefined();

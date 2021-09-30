@@ -26,6 +26,12 @@
                         ]
                     }
                 },
+                "cordova-test": {
+                    "builder": "@iotize-private/dev-tools-cli:cordova-plugin-test",
+                    "options": {
+                        "pluginPath": "dist/@iotize/device-com-nfc.cordova"
+                    }
+                },
                 "coverage": {
                     "builder": "@iotize-private/dev-tools-cli:nyc",
                     "options": {

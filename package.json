@@ -63,6 +63,7 @@
     },
     "scripts": {
         "build": "idtg project build",
+        "cordova-test": "idtg project cordova-test",
         "prepare": "npm run build",
         "clean": "rm -rf ./dist/*",
         "test": "idtg project test"
