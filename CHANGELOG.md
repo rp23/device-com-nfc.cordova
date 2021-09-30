@@ -1,3 +1,8 @@
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/iotize-sas/device-com-nfc.cordova/compare/v3.0.1...v3.1.0) (2021-09-30)
+
+- Changed plugin identifier from `cordova-plugin-iotize-device-com-nfc` to `@iotize/device-com-nfc.cordova` (requires cordova >= 10)
+
 <a name="3.0.1"></a>
 # [3.0.1](https://github.com/iotize-sas/device-com-nfc.cordova/compare/v3.0.0...v3.0.1) (2021-07-21)
 
