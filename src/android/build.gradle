@@ -15,15 +15,15 @@ dependencies {
     implementation 'org.apache.commons:commons-collections4:4.1'
 
     // Add core library
-    implementation 'com.iotize.android:iotize-core:1.0.0-alpha.7'
+    implementation 'com.iotize.android:iotize-core:1.0.0-alpha.9'
 
     // api
-    implementation 'com.iotize.android:iotize-device-api:1.0.0-alpha.7'
-    implementation 'com.iotize.android:iotize-client:1.0.0-alpha.7'
-    implementation 'com.iotize.android:iotize-device:1.0.0-alpha.7'
+    implementation 'com.iotize.android:iotize-device-api:1.0.0-alpha.9'
+    implementation 'com.iotize.android:iotize-client:1.0.0-alpha.9'
+    implementation 'com.iotize.android:iotize-device:1.0.0-alpha.9'
 
     // NFC
-    implementation 'com.iotize.android:iotize-device-com-nfc:1.0.0-alpha.7'
+    implementation 'com.iotize.android:iotize-device-com-nfc:1.0.0-alpha.9'
 
     // RX
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
