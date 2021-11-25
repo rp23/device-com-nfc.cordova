@@ -21,13 +21,13 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.iotize.android.communication.client.impl.IoTizeClient;
+import com.iotize.android.communication.client.impl.EncryptionAlgo;
+import com.iotize.android.communication.client.impl.TapClient;
+import com.iotize.android.communication.client.impl.protocol.ProtocolFactory;
 import com.iotize.android.communication.protocol.nfc.NFCIntentParser;
 import com.iotize.android.communication.protocol.nfc.NFCProtocol;
 import com.iotize.android.communication.protocol.nfc.NFCProtocolFactory;
 import com.iotize.android.core.util.Helper;
-import com.iotize.android.device.api.client.EncryptionAlgo;
-import com.iotize.android.device.api.protocol.ProtocolFactory;
 import com.iotize.android.device.device.impl.IoTizeDevice;
 
 import org.apache.cordova.CallbackContext;
@@ -315,7 +315,7 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
             byte[] response = tap.nfcPairing();
         }
         if (preferences.getBoolean(PREF_ENABLE_ENCRYPTION_WITH_NFC, false)) {
-            tap.encryption(true);
+            tap.encryption(true, true);
         }
         return tap;
     }
@@ -929,8 +929,9 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
                 keysOptions.put("sessionKey", Util.byteArrayToJSON(encryptionAlgo.getKey()));
                 int frameCounter = 0;
                 try {
-                    IoTizeClient client = tap.getClient();
-                    Field field = client.getClass().getDeclaredField("cmdCounter");
+                    // TODO change with frameCounter
+                    TapClient client = tap.getClient();
+                    Field field = client.getClass().getDeclaredField("frameCounter");
                     field.setAccessible(true);
                     frameCounter = (int) field.get(client);
                 } catch (NoSuchFieldException e) {
