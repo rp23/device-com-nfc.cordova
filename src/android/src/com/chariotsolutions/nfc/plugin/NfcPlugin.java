@@ -125,14 +125,6 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
     private Intent mLastTapDiscoveredIntent;
 
     @Override
-    protected void pluginInitialize() {
-        super.pluginInitialize();
-        if (isTapDeviceDiscoveryEnabled()) {
-            parseMessage();
-        }
-    }
-
-    @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
 
         Log.d(TAG, "execute " + action);
