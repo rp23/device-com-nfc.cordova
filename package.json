@@ -60,7 +60,9 @@
     "cordova-test": "idtg project cordova-test",
     "prepare": "npm run build",
     "clean": "rm -rf ./dist/*",
-    "test": "idtg project test"
+    "test": "idtg project test",
+    "prepublish": "npm run build && npm test",
+    "publish": "cd dist/@iotize/device-com-nfc.cordova && idtg republish"
   },
   "dependencies": {}
 }
