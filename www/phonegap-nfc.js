@@ -496,6 +496,11 @@ var nfc = {
 
     // iOS only
 
+    beginSession: function (win, fail) {
+        cordova.exec(win, fail, "NfcPlugin", "beginSession", []);
+    },
+
+    // iOS only
     beginNDEFSession: function (win, fail) {
         cordova.exec(win, fail, "NfcPlugin", "beginNDEFSession", []);
     },

@@ -14,6 +14,7 @@ import CoreNFC
 @objc(NfcPlugin) class NfcPlugin: CDVPlugin {
     var nfcController: NSObject? // ST25DVReader downCast as NSObject for iOS version compatibility
     var ndefController: NFCNDEFDelegate?
+    var nfcController: NFCDelegate?
     var lastError: Error?
     var channelCommand: CDVInvokedUrlCommand?
     var isListeningNDEF = false
@@ -181,6 +182,34 @@ import CoreNFC
             }
         }
     }
+    
+    @objc(beginSession:)
+    func beginSession(command: CDVInvokedUrlCommand) {
+        DispatchQueue.main.async {
+            print("Begin reading session")
+
+            if self.nfcController == nil {
+                var message: String?
+                if command.arguments.count != 0 {
+                    message = command.arguments[0] as? String ?? ""
+                }
+                self.nfcController = NFCDelegate(completed: {
+                    (response: [AnyHashable: Any]?, error: Error?) -> Void in
+                    DispatchQueue.main.async {
+                        print("handle nfc")
+                        if error != nil {
+                            self.lastError = error
+                            self.sendError(command: command, result: error!.localizedDescription)
+                        } else {
+                            // self.sendSuccess(command: command, result: response ?? "")
+                            self.sendThroughChannel(jsonDictionary: response ?? [:])
+                        }
+                        self.nfcController = nil
+                    }
+                }, message: message)
+            }
+        }
+    }
 
     @objc(invalidateNDEFSession:)
     func invalidateNDEFSession(command: CDVInvokedUrlCommand) {
@@ -249,3 +278,5 @@ import CoreNFC
         sendSuccess(command: command, result: enabled)
     }
 }
+
+
