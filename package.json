@@ -56,9 +56,6 @@
     "debug": "^4.1.1"
   },
   "scripts": {
-    "prepare": "npm run build",
-    "clean": "rm -rf ./dist/*",
-    "prepublish": "npm run build && npm test"
   },
   "dependencies": {}
 }
