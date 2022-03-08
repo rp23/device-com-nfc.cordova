@@ -1,5 +1,6 @@
 import CoreNFC
 
+@available(iOS 13.0, *)
 class NFCDelegate: NSObject, NFCTagReaderSessionDelegate {
     
     var session: NFCTagReaderSession?
