@@ -58,7 +58,7 @@
   "scripts": {
     "prepare": "npm run build",
     "clean": "rm -rf ./dist/*",
-    "prepublish": "npm run build && npm test",
+    "prepublish": "npm run build && npm test"
   },
   "dependencies": {}
 }
