@@ -27,6 +27,7 @@ class NFCDelegate: NSObject, NFCTagReaderSessionDelegate {
     }
     
     func tagReaderSession(_ session: NFCTagReaderSession, didDetect tags: [NFCTag]) {
+        self.tagID = "00000000000000"
         if case NFCTag.iso7816(_) = tags.first! {
             print("NFCTag.iso7816")
         }
@@ -34,16 +35,14 @@ class NFCDelegate: NSObject, NFCTagReaderSessionDelegate {
         if case let NFCTag.miFare(tag) = tags.first! {
             print("NFCTag.miFare")
             session.connect(to: tags.first!) {(error: Error?) in
-                
-                let apdu = NFCISO7816APDU(instructionClass: 0, instructionCode: 0xB0, p1Parameter: 0, p2Parameter: 0, data: Data(), expectedResponseLength: 16)
+
                 var tagID = ""
-
                 tag.identifier.forEach {i in tagID.append(String(format: "%02X", i))}
-
                 print(tagID)
-  
-                tag.sendMiFareISO7816Command(apdu) { (data, sw1, sw2, error) in
-                }
+                self.tagID = tagID;
+
+                self.completed(nil,nil)
+                session.invalidate();
             }
         }
     }

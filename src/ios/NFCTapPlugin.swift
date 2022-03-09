@@ -202,8 +202,8 @@ import CoreNFC
                                 self.lastError = error
                                 self.sendError(command: command, result: error!.localizedDescription)
                             } else {
-                                // self.sendSuccess(command: command, result: response ?? "")
-                                self.sendThroughChannel(jsonDictionary: response ?? [:])
+                                let tag = nfcDController?.tagID ?? "00000000000000"
+                                self.sendSuccess(command: command, result: tag)
                             }
                             nfcDController = nil
                         }
