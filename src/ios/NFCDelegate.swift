@@ -5,6 +5,7 @@ class NFCDelegate: NSObject, NFCTagReaderSessionDelegate {
     
     var session: NFCTagReaderSession?
     var completed: ([AnyHashable : Any]?, Error?) -> ()
+    var tagID: String?
     
     init(completed: @escaping ([AnyHashable: Any]?, Error?) -> (), message: String?) {
         self.completed = completed
