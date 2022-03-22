@@ -6,6 +6,7 @@ repositories{
     maven {
         // Add iotize repository url
         url "http://repo.iotize.com/artifactory/gradle-release"
+        allowInsecureProtocol = true
     }
 }
 
