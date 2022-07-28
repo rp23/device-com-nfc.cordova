@@ -1,3 +1,9 @@
+## 3.1.4 (2022-03-22)
+
+### Bug Fixes
+
+- added gradle option allowInsecureProtocol = true 4007542
+
 ## 3.1.3 (2021-12-27)
 
 ### BREAKING CHANGE:

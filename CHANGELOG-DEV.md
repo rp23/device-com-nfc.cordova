@@ -1,3 +1,12 @@
+## [3.1.4](https://github.com/iotize-sas/device-com-nfc.cordova/compare/v3.1.3...v3.1.4) (2022-03-22)
+
+
+### Bug Fixes
+
+* added gradle option allowInsecureProtocol = true 4007542
+
+
+
 ## [3.1.3](https://github.com/iotize-sas/device-com-nfc.cordova/compare/v3.1.0...v3.1.3) (2021-12-27)
 
 ### BREAKING CHANGE:
