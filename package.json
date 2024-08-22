@@ -35,8 +35,8 @@
   },
   "homepage": "https://github.com/iotize-sas/device-com-nfc.cordova#readme",
   "devDependencies": {
-    "@iotize/common": "^2.0.0-alpha.2",
-    "@iotize/tap": "^2.7.0",
+    "@iotize/common": "2.3.5",
+    "@iotize/tap": "2.26.1",
     "@types/chai": "^4.1.7",
     "@types/debug": "^4.1.4",
     "@types/mocha": "^5.2.7",
@@ -49,10 +49,10 @@
     "typescript": "^3.2.2"
   },
   "peerDependencies": {
-    "@iotize/common": "^2.0.0",
-    "@iotize/tap": "^2.0.0",
+    "@iotize/common": "2.3.5",
+    "@iotize/tap": "2.26.1",
     "rxjs": "^6.0.0",
-    "@ionic-native/nfc": "^5.8.0",
+    "@ionic-native/nfc": "5.36.0",
     "debug": "^4.1.1"
   },
   "scripts": {
